@@ -17,7 +17,7 @@ class CalculatorInteractor {
         return numberOne * numberTwo
     }
     
-    func dividde(numberOne: Float, by numberTwo: Float) -> Float {
+    func divide(numberOne: Float, by numberTwo: Float) -> Float {
         return numberOne / numberTwo
     }
 }

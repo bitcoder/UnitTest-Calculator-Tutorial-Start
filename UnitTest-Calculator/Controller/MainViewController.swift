@@ -70,7 +70,7 @@ class MainViewController: UIViewController {
             case .multiplication:
                 displayNumber = calculatorInteractor.multiply(numberOne: displayNumber, by: buttonNumber)
             case .division:
-                displayNumber = calculatorInteractor.dividde(numberOne: buttonNumber, by: displayNumber)
+                displayNumber = calculatorInteractor.divide(numberOne: buttonNumber, by: displayNumber)
             }
         } else {
             currentNumber = buttonNumber
@@ -89,7 +89,7 @@ class MainViewController: UIViewController {
     // MARK: Helper Methods
     
     private func setCurrentOperation(for buttonTitle: String) {
-        switch buttonText {
+        switch buttonTitle {
         case "/":
             currentOperation = .division
         case "*":
