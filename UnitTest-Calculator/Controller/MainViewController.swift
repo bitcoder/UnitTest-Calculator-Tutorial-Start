@@ -89,8 +89,8 @@ class MainViewController: UIViewController {
     // MARK: Helper Methods
     
     private func setCurrentOperation(for buttonTitle: String) {
-        switch buttonText {
-        case "/":
+        switch buttonTitle {
+        case "÷":
             currentOperation = .division
         case "*":
             currentOperation = .multiplication
