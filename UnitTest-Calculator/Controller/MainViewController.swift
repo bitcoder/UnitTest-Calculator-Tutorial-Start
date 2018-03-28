@@ -2,19 +2,18 @@
 
 import UIKit
 
+// MARK: OperationType Enum
+
+enum OperationType {
+    case addition
+    case subtraction
+    case multiplication
+    case division
+}
+
 // MARK: MainViewController
 
 class MainViewController: UIViewController {
-
-    // MARK: Enum
-    
-    enum Operation {
-        case addition
-        case subtraction
-        case multiplication
-        case division
-        case equals
-    }
     
     // MARK: Outlets
     
@@ -26,7 +25,14 @@ class MainViewController: UIViewController {
     // MARK: Variables
     
     var calculatorInteractor: CalculatorInteractor!
-    var currentOperation: Operation?
+    var currentOperation: OperationType?
+    
+    var currentNumber: Float? {
+        didSet {
+            displayNumber = currentNumber ?? 0
+        }
+    }
+    
     var displayNumber: Float = 0 {
         didSet {
             displayViewLabel.text = "\(displayNumber)"
@@ -43,6 +49,11 @@ class MainViewController: UIViewController {
     
     // MARK: Action Methods
     
+    @IBAction func clear(_ sender: Any?) {
+        currentNumber = nil
+        currentOperation = nil
+    }
+    
     @IBAction func number(_ sender: Any?) {
         guard let button = sender as? UIButton,
               let buttonText = button.titleLabel?.text,
@@ -50,19 +61,34 @@ class MainViewController: UIViewController {
             return
         }
         
-        if currentOperation == nil {
-            displayNumber = buttonNumber
+        if let currentOperation = currentOperation {
+            switch currentOperation {
+            case .addition:
+                displayNumber = calculatorInteractor.add(numberOne: displayNumber, to: buttonNumber)
+            case .subtraction:
+                displayNumber = calculatorInteractor.subtract(numberOne: buttonNumber, from: displayNumber)
+            case .multiplication:
+                displayNumber = calculatorInteractor.multiply(numberOne: displayNumber, by: buttonNumber)
+            case .division:
+                displayNumber = calculatorInteractor.dividde(numberOne: buttonNumber, by: displayNumber)
+            }
         } else {
-            
+            currentNumber = buttonNumber
         }
     }
     
     @IBAction func operation(_ sender: Any?) {
         guard let button = sender as? UIButton,
-              let buttonText = button.titleLabel?.text else {
+              let buttonTitle = button.titleLabel?.text else {
             return
         }
         
+        setCurrentOperation(for: buttonTitle)
+    }
+    
+    // MARK: Helper Methods
+    
+    private func setCurrentOperation(for buttonTitle: String) {
         switch buttonText {
         case "/":
             currentOperation = .division
@@ -72,8 +98,6 @@ class MainViewController: UIViewController {
             currentOperation = .subtraction
         case "+":
             currentOperation = .addition
-        case "=":
-            currentOperation = .equals
         default:
             currentOperation = nil
         }
