@@ -70,7 +70,7 @@ class MainViewController: UIViewController {
             case .multiplication:
                 displayNumber = calculatorInteractor.multiply(numberOne: displayNumber, by: buttonNumber)
             case .division:
-                displayNumber = calculatorInteractor.dividde(numberOne: buttonNumber, by: displayNumber)
+                displayNumber = calculatorInteractor.divide(numberOne: buttonNumber, by: displayNumber)
             }
         } else {
             currentNumber = buttonNumber
